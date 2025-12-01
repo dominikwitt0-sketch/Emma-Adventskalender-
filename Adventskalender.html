@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Dein Adventsmärchen</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        background: radial-gradient(circle at top, #ffb3c1 0%, #b23535 40%, #2b0a18 100%);
+    }
+
+    h1 {
+        margin-top: 30px;
+        margin-bottom: 10px;
+        font-size: 34px;
+        letter-spacing: 1px;
+    }
+
+    h2 {
+        margin-top: 0;
+        margin-bottom: 25px;
+        font-weight: normal;
+        font-size: 18px;
+        opacity: 0.9;
+    }
+
+    .calendar {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(70px, 120px));
+        gap: 15px;
+        max-width: 520px;
+        margin: 0 auto 40px auto;
+        padding: 15px;
+        border-radius: 20px;
+        background: rgba(0, 0, 0, 0.18);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(6px);
+    }
+
+    .door {
+        background: linear-gradient(145deg, rgba(255,255,255,0.92), rgba(255,220,230,0.95));
+        border: 2px solid rgba(255,255,255,0.85);
+        padding: 18px 10px;
+        font-size: 24px;
+        font-weight: 700;
+        cursor: pointer;
+        border-radius: 14px;
+        transition: 0.25s;
+        color: #b23535;
+        box-shadow: 0 5px 12px rgba(0,0,0,0.25);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .door::after {
+        content: "❤";
+        position: absolute;
+        font-size: 18px;
+        opacity: 0.18;
+        right: 8px;
+        bottom: 6px;
+    }
+
+    .door:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+    }
+
+    .door:active {
+        transform: translateY(0);
+        box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    }
+
+    #popup {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.75);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+    }
+
+    #popupBox {
+        background: #fff;
+        color: #220814;
+        padding: 25px 22px 22px 22px;
+        border-radius: 18px;
+        max-width: 650px;
+        width: 100%;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        position: relative;
+    }
+
+    #popupTitle {
+        font-size: 20px;
+        margin-bottom: 10px;
+        font-weight: 700;
+        color: #b23535;
+    }
+
+    #text {
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 12px;
+        white-space: pre-wrap;
+    }
+
+    #hint {
+        font-size: 14px;
+        font-style: italic;
+        color: #8c1f3c;
+        margin-bottom: 15px;
+    }
+
+    #closeBtn {
+        padding: 9px 20px;
+        background: #b23535;
+        color: #fff;
+        border: none;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    #closeBtn:hover {
+        background: #8f1f2a;
+    }
+
+    .smallNote {
+        font-size: 12px;
+        opacity: 0.8;
+        margin-bottom: 15px;
+        text-align: center;
+        max-width: 500px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Dein Adventsmärchen</h1>
+<h2>Jeden Tag ein Kapitel von uns beiden und ein Hinweis auf dein Tütchen</h2>
+
+<div class="calendar">
+    <div class="door" onclick="openDoor(1)">1</div>
+    <div class="door" onclick="openDoor(2)">2</div>
+    <div class="door" onclick="openDoor(3)">3</div>
+    <div class="door" onclick="openDoor(4)">4</div>
+    <div class="door" onclick="openDoor(5)">5</div>
+    <div class="door" onclick="openDoor(6)">6</div>
+    <div class="door" onclick="openDoor(7)">7</div>
+    <div class="door" onclick="openDoor(8)">8</div>
+    <div class="door" onclick="openDoor(9)">9</div>
+    <div class="door" onclick="openDoor(10)">10</div>
+    <div class="door" onclick="openDoor(11)">11</div>
+    <div class="door" onclick="openDoor(12)">12</div>
+    <div class="door" onclick="openDoor(13)">13</div>
+    <div class="door" onclick="openDoor(14)">14</div>
+    <div class="door" onclick="openDoor(15)">15</div>
+    <div class="door" onclick="openDoor(16)">16</div>
+    <div class="door" onclick="openDoor(17)">17</div>
+    <div class="door" onclick="openDoor(18)">18</div>
+    <div class="door" onclick="openDoor(19)">19</div>
+    <div class="door" onclick="openDoor(20)">20</div>
+    <div class="door" onclick="openDoor(21)">21</div>
+    <div class="door" onclick="openDoor(22)">22</div>
+    <div class="door" onclick="openDoor(23)">23</div>
+    <div class="door" onclick="openDoor(24)">24</div>
+</div>
+
+<div class="smallNote">
+    Am schönsten wird es, wenn du erst dein echtes Tütchen öffnest und danach das passende Türchen hier anklickst.
+</div>
+
+<div id="popup">
+    <div id="popupBox">
+        <div id="popupTitle"></div>
+        <div id="text"></div>
+        <div id="hint"></div>
+        <button id="closeBtn" onclick="closePopup()">Schließen</button>
+    </div>
+</div>
+
+<script>
+const messages = {
+    1: {
+        title: "Erster Dezember",
+        story: `⭐ TÜRCHEN 1 – Der Anfang, den keiner kommen sah
+
+Die letzten zwei Monate waren der Beginn von etwas, das sich nicht geplant, nicht erwartet und schon gar nicht vorhergesehen hat. Bevor wir uns über diese App begegnet sind, waren wir zwei Menschen, die nichts voneinander wussten. Keine Vorgeschichte, kein wir kennen uns doch irgendwoher, kein gemeinsamer Moment aus der Vergangenheit.
+
+Ein Match kann alles oder nichts sein – aber bei dir war sofort dieses kleine Gefühl von da ist etwas. Deine Art zu schreiben war warm und direkt zugleich. Nicht künstlich, nicht gespielt, kein ich versuche jemand zu sein. Du warst einfach du. Und obwohl zwischen uns nichts Offizielles ist, nichts Festgelegtes, habe ich schnell gemerkt, dass ich mir wünsche, dass daraus vielleicht etwas wachsen kann. Langsam, ohne Druck, aber echt.
+
+Dieses erste Türchen steht für die allererste Bewegung unserer Geschichte.
+Für ein digitales Treffen, das zufällig wirkte und sich doch richtig angefühlt hat.
+Für einen Anfang, der klein begann und sich größer anfühlt, als man es nach so kurzer Zeit erklären kann.
+Für einen Anfang, der es wert ist, in einem Adventskalender festgehalten zu werden.`,
+        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 1 schenkt dir etwas, das den Dezember warm starten lässt."
+    },
+    2: {
+        title: "Zweiter Dezember",
+        story: `⭐ TÜRCHEN 2 – Unser erstes Treffen
+
+Unser echtes Kennenlernen begann mit einem Spaziergang. Kein großes Date, kein perfekt vorbereitetes Szenario. Nur ein Treffen zwischen zwei Menschen, die sich noch nicht kannten und trotzdem neugierig aufeinander waren.
+
+Schon in den ersten Minuten habe ich gemerkt, dass Bilder niemals zeigen können, was ein Mensch wirklich ausstrahlt. Du warst in echt viel schöner, viel strahlender, viel intensiver als jedes Foto von dir. Deine Präsenz hat etwas mit mir gemacht. Du hast diesen leisen, aber warmen Eindruck hinterlassen, der sich sofort festsetzt.
+
+Nach dem Spaziergang war da kein Zögern, kein Abstand halten, kein wir sollten uns erst mal Zeit lassen. Das zweite Treffen kam fast sofort, dieses Mal mit Lilli. Und statt sich komisch anzufühlen, war es einfach natürlich. Ein Zeichen dafür, dass das, was zwischen uns passiert, sich echt anfühlt und seinen eigenen Rhythmus hat.
+
+Dieses Türchen steht für die ersten Schritte, die wir gegangen sind – wortwörtlich.
+Für die Momente, in denen man sich ansieht und spürt:
+Ich möchte diesen Menschen wiedersehen.`,
+        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 2 wartet heute etwas für deine Lippen, die ich viel zu oft im Kopf habe."
+    },
+    3: {
+        title: "Dritter Dezember",
+        story: `⭐ TÜRCHEN 3 – Unser Tempo
+
+Es gibt Verbindungen, die entwickeln sich langsam.
+Und dann gibt es solche, die haben ihren eigenen Takt, ihren eigenen Fluss. Unsere gehörte von Anfang an zur zweiten Kategorie. Nicht hektisch, nicht überstürzt, einfach ehrlich schnell.
+
+Wir hatten keine Wochen Abstand zwischen Treffen, Nachrichten oder wichtigen Gesprächen. Es waren Tage. Manchmal nur Stunden. Und in dieser Geschwindigkeit lag nichts Unnatürliches. Es war ein Gefühl, das uns beide geleitet hat.
+
+Unsere Gespräche gingen tiefer, als man es von einem wir kennen uns erst kurz erwarten würde. Und obwohl wir uns noch nicht lange kannten, fühlte sich vieles vertraut an. Vielleicht, weil du jemand bist, der nicht oberflächlich ist. Vielleicht auch, weil unsere Art zu fühlen ähnlich ist: intensiv, direkt, ehrlich.
+
+Dieses Türchen steht für dieses Tempo – ein Tempo, das nicht vom Kopf, sondern vom Herzen kam.
+Für die Erkenntnis, dass manche Menschen in unserem Leben landen und sich nicht wie Fremde anfühlen, sondern wie ein neuer Anfang.`,
+        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 3 schenkt dir heute einen warmen Moment in einer Tasse."
+    },
+    4: {
+        title: "Vierter Dezember",
+        story: `⭐ TÜRCHEN 4 – Mallorca und Griechenland
+
+Ein Kennenlernen über zwei Länder hinweg klingt eigentlich kompliziert. Mallorca und Griechenland – zwei Orte, die nichts miteinander zu tun haben. Und trotzdem hast du in dieser Zeit mehr Raum in meinem Kopf eingenommen als alles um mich herum.
+
+Ich erinnere mich daran, wie ich im Bierkönig stand – laut, voll, überladen mit Eindrücken. Menschen, die feiern wollten, Musik, die man eher fühlt als hört, Gespräche, die untergehen. Und trotzdem war mein Fokus irgendwo ganz anders: bei dir.
+
+Du warst am Strand, ich war zwischen Palmen und Party, und dennoch hatten unsere Gespräche eine Tiefe, die man normalerweise erst viel später erreicht. Ich habe mich dabei ertappt, wie ich öfter das Handy gehalten habe als mein Getränk. Wie ich rausgegangen bin, um deine Stimme besser zu hören. Wie ich Gespräche mit dir über die Geräusche um mich herum gestellt habe.
+
+Dieses Türchen steht für genau das:
+für eine Verbindung, die trotz Entfernung und Chaos gewachsen ist.
+Für eine Nähe, die nicht hätte da sein müssen – aber da war.
+Für dieses stille Gefühl:
+Vielleicht bedeutet dieser Mensch mir mehr, als ich zugeben wollte.`,
+        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 4 wartet ein kleiner winterlicher Anhänger auf dich."
+    },
+    5: {
+        title: "Fünfter Dezember",
+        story: `⭐ TÜRCHEN 5 – Streit heißt Bedeutung
+
+Die letzten zwei Monate waren nicht nur leicht. Kein sanfter Weg ohne Stolpersteine. Wir hatten Streit – teilweise viel, teilweise heftig, manchmal unnötig, manchmal völlig aus dem Bauch heraus. Aber all das zeigt etwas Wichtiges:
+Es war nicht egal. Nie.
+
+Zwei Menschen, die einander egal sind, streiten nicht so. Sie diskutieren nicht so viel. Sie fühlen nicht so viel. Aber wir haben intensiv reagiert. Weil unsere Verbindung von Anfang an intensiv war.
+
+Wir hatten Missverständnisse, verletzte Momente, Gedanken, die in die falsche Richtung gegangen sind. Und trotzdem war da immer dieses leise Gefühl im Hintergrund:
+Ich will diesen Menschen nicht verlieren.
+
+Dieses Türchen ist ein ehrliches, vielleicht das ehrlichste von allen.
+Es zeigt, dass echtes Kennenlernen nicht nur aus Sonnenseiten besteht.
+Es besteht aus Höhen und Tiefen.
+Aus Nähe und Angst.
+Aus Verletzlichkeit und Mut.
+
+Und aus dem Wunsch, trotz allem weiterzugehen.`,
+        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 5 hält heute etwas Süßes bereit, wie eine kleine Erinnerung daran, dass wir auch weiche Seiten haben."
+    },
+    6: {
+        title: "Sechster Dezember",
+        story: `⭐ TÜRCHEN 6 – Der Blick, der mehr gesagt hat
+
+Mitten in all der Intensität, in allem, was zwischen uns mal laut und mal leise war, gab es einen Moment, der mir besonders im Kopf geblieben ist. Ein Moment, der weder geplant war noch groß inszeniert. Eigentlich war es nur ein Essen. Sushi, ein Tisch, zwei Menschen, die sich noch gar nicht so lange kannten.
+
+Und trotzdem war dieser Augenblick einer der stillsten, tiefsten und ehrlichsten zwischen uns.
+Du saßt mir gegenüber, hast erzählt, gelacht, deine Hände bewegt, während du gesprochen hast – und immer wieder zu mir hochgeschaut. Und einer dieser Blicke war anders. Nicht übertrieben, nicht dramatisch, nicht kitschig. Einfach warm.
+
+Es war ein Blick, der gesagt hat, dass du gern hier bist und dass sich dieser Moment gut anfühlt.
+
+Wir hatten zu diesem Zeitpunkt noch keine lange gemeinsame Geschichte. Aber Nähe braucht manchmal keine Zeit, sondern nur Ehrlichkeit. Und genau diese Ehrlichkeit war in deinen Augen.
+
+Ich erinnere mich daran, wie ich dich angesehen habe und wie ruhig plötzlich alles wurde. Keine Gedanken daran, was davor war. Keine Sorge, was später sein könnte. Nur ein kurzer Moment, der sich so vertraut angefühlt hat, als würde man sich schon viel länger kennen.
+
+Dieses Türchen steht für genau das:
+für die kleinen, stillen Funken zwischen uns,
+für die Art, wie du mich anschaust,
+für den Moment, in dem aus zwei Fremden zwei Menschen wurden, die sich wirklich gespürt haben.`,
+        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 6 liegt ein kleiner Moment von uns, festgehalten für dich."
+    },
+    7: {
+        title: "Siebter Dezember",
+        story: `⭐ TÜRCHEN 7 – Die kleinen Dinge und deine Art, die ich liebe
+
+Es gibt Erinnerungen, die von außen total unscheinbar wirken – und trotzdem viel über einen Menschen erzählen. Einer dieser Momente war dieser kleine, eigentlich unwichtige Augenblick mit den Hotdogs für deine Familie. Eine winzige Aufgabe, nichts Großes. Und doch hat sie so viel über dich gesagt.
+
+Wie selbstverständlich du dich um andere kümmerst.
+Wie du an deine Familie gedacht hast, als wäre es das Normalste auf der Welt.
+Wie warm und zuverlässig du bist, selbst in den kleinsten Dingen.
+
+Aber was mich an diesem Tag besonders berührt hat, war etwas, das du nebenbei gesagt hast. Du meintest zu mir, du hättest manchmal das Gefühl, dass du von fünf bis fünfunddreißig jedes Alter haben könntest – von deiner Art her, deiner Energie, deiner Verspieltheit, deiner Reife und deiner Kindlichkeit, die sich irgendwie perfekt mischt.
+
+Und dann hast du gefragt, ob mich das stört. Ob das zu viel sein könnte. Ob es mich nerven würde.
+
+Aber das Gegenteil war der Fall. Genau das fand ich schön.
+
+Deine kindliche Art – dieses Unkomplizierte, Spontane, Ehrliche – ist einer der Gründe, warum du mir so ans Herz gewachsen bist. Sie macht dich lebendig. Sie macht dich warm. Sie macht dich zu dir.
+
+Ich mag, wie du in einem Moment erwachsen und klar bist und im nächsten wieder diese leichte, spielerische Seite hast, die mich zum Lächeln bringt. Du bist kein eindimensionaler Mensch – du bist ein ganzes Spektrum. Und genau das macht dich so einzigartig.
+
+Dieses Türchen steht für die kleinen Dinge, die man nie planen kann.
+Für spontane Aussagen, die mehr Bedeutung haben als große Gesten.
+Für die Art, wie du bist – bunt, lebendig, voller Facetten –
+und für die Tatsache, dass genau das eine der schönsten Seiten an dir ist.`,
+        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 7 bringt dir heute ein kleines Licht, das an gemeinsame Tage erinnern soll."
+    },
+    8: {
+        title: "Achter Dezember",
+        story: `⭐ TÜRCHEN 8 – Als meine Vergangenheit plötzlich keine Distanz mehr bieten konnte
+
+Der Kinoabend war einer der ehrlichsten und intensivsten Momente der letzten zwei Monate. Nicht, weil wir einen Liebesfilm geschaut haben. Nicht, weil ich seit sechs Jahren nicht mehr im Kino war. Sondern weil an diesem Abend etwas passiert ist, das ich nicht erwartet hatte – dass meine Fassade bricht.
+
+Ich war lange kalt im Herzen, nicht weil ich gefühlskalt bin, sondern weil mich meine Vergangenheit dazu gezwungen hat.
+Man lernt irgendwann, dass zu viel Gefühl weh tut.
+Dass Nähe gefährlich ist.
+Dass es einfacher ist, Abstand zu halten, bevor man verletzt wird.
+
+Und genau deshalb war ich vorsichtig.
+Zurückhaltend.
+Geschützt.
+Nicht, weil du es verdient hast – ganz im Gegenteil.
+Sondern weil ich Angst hatte.
+Angst davor, wieder jemanden zu verlieren.
+Angst davor, dass ich nicht genug bin.
+Angst davor, dass echte Gefühle mich wieder zerreißen könnten.
+
+Dann saßen wir dort im dunklen Kinosaal.
+Du neben mir, warm, ruhig, ehrlich – und plötzlich näher als jeder Mensch, der in den letzten Jahren in mein Leben getreten ist.
+
+Du hast mich angeschaut und mir gesagt, dass du mich liebst.
+
+Ich war schon vorher von dir überzeugt.
+Mehr, als ich es jemals gezeigt habe.
+Aber diese Worte von dir zu hören, so direkt, so echt, hat alles in mir durcheinandergebracht. In diesem Moment ist meine Fassade nicht langsam gefallen. Sie ist in sich zusammengebrochen.
+
+Plötzlich war ich verletzlich.
+Angreifbar.
+Echt.
+
+Und meine Angst vor Verlust wurde lauter als mein Kopf.
+Ich bin innerlich durchgedreht.
+Nicht, weil ich dir nicht geglaubt habe.
+Nicht, weil deine Worte falsch waren.
+Sondern weil ich zum ersten Mal seit Jahren wieder etwas gefühlt habe, das mich wirklich hätte zerstören können, wenn ich es verloren hätte.
+
+Die Eifersucht.
+Die Paranoia.
+Die Unsicherheit.
+All das kam nicht, weil du falsch warst,
+sondern weil ich auf einmal so viel zu verlieren hatte.
+
+Du hattest mich kurz davor gefragt, wo mein Fehler liegt.
+
+Und im Kino hast du ihn gesehen:
+Mein Herz ist nicht kalt, es ist verletzt.
+Und wenn jemand wie du es berührt, beginnt es zu brennen.
+
+Dieses Türchen steht für den Moment, in dem ich verstanden habe, wie stark meine Gefühle für dich wirklich sind – und wie sehr sie mich aus meiner Vergangenheit herausgerissen haben.`,
+        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 8 wartet ein kleiner winterlicher Snack auf dich."
+    },
+    9: {
+        title: "Neunter Dezember",
+        story: `⭐ TÜRCHEN 9 – Manche Fehler anderer werden zu unserem Glück
+
+Es gibt Momente im Kennenlernen, die auf den ersten Blick total nebensächlich wirken. Situationen, die eigentlich gar nichts Großes sind, bis man später merkt, dass sie eine Art Symbol geworden sind. Einer dieser Momente war der Insider mit dem giftigsten Fisch der Welt.
+
+Wir haben nicht darüber gesprochen, weil er so bedeutend war, sondern weil du ihn mit deiner typischen Mischung aus Humor und Kopfschütteln erzählt hast. Und genau das hat mich berührt – nicht der Satz selbst, sondern wie du ihn erzählt hast. So ehrlich, so schmunzelnd, so ein bisschen fassungslos, weil jemand nicht erkannt hat, was er vor sich hatte.
+
+Thiago, der dich nicht wollte.
+Jemand, der blind war.
+Jemand, der eine Frau wie dich nicht zu schätzen wusste.
+
+Während du davon erzählt hast, wurde mir eines klar:
+Manchmal machen andere die größten Fehler – und genau aus diesen Fehlern entsteht für jemand anderen eine Chance.
+
+Du hast diese Geschichte einfach erzählt.
+Locker, leicht, mit Humor.
+Aber für mich war in diesem Moment klar, wie viel innere Stärke du hast, auch wenn du sie nicht immer siehst.
+
+Und gleichzeitig hatte ich diesen Gedanken, der mich bis heute begleitet:
+Wenn er dich nur einen Moment lang so gesehen hätte, wie ich dich sehe, hätte er dich nie losgelassen.
+Aber sein Fehler ist der Grund, warum ich dich kennenlernen durfte.
+
+Dieser Insider ist inzwischen mehr als nur ein dummer Spruch.
+Er ist eine Erinnerung daran, dass manche Menschen Chancen wegwerfen –
+und jemand anderes sie mit beiden Händen hält.
+
+Dieses Türchen steht dafür, dass du viel mehr wert bist, als du manchmal glaubst.
+Und dass ich froh bin, dass du jetzt an einem Punkt bist, an dem dich jemand wirklich sieht.`,
+        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 9 hält heute ein kleines Stück Winterdeko für dich bereit."
+    },
+    10: {
+        title: "Zehnter Dezember",
+        story: `⭐ TÜRCHEN 10 – Ein Zeichen dafür, dass ich trotzdem zu dir komme
+
+TÜRCHEN 10 gehört zu einem Moment, der von außen unscheinbar wirkt, aber für mich viel über uns erzählt.
+Es ging nie wirklich um Torti. Nicht um die Katze. Nicht darum, ob ich Katzen mag oder nicht.
+
+Es ging darum, was diese Situation über dich und mich gezeigt hat.
+
+Eigentlich hätte meine Allergie der perfekte Grund sein können, Abstand zu halten. Eine völlig verständliche Ausrede. Eine Möglichkeit, es mir leicht zu machen und zu sagen, dass mir das zu unangenehm ist.
+
+Aber ich bin trotzdem zu dir gekommen.
+Nicht, weil es bequem war, nicht, weil es angenehm war, sondern einzig wegen dir.
+
+Du warst der Grund, warum ich da war.
+Nicht der Ort, nicht die Umstände, nicht die Situation.
+Nur du.
+
+Und genau das macht diese Erinnerung für mich wertvoll.
+Sie zeigt, dass du mir schon früh wichtiger warst, als ich mir selbst eingestehen wollte.
+Dass ich bereit war, etwas Unangenehmes auszuhalten, ohne lange darüber nachzudenken.
+Dass Nähe zu dir sich einfach richtig angefühlt hat, egal wie chaotisch oder unbequem der Rahmen war.
+
+Von außen sah es vielleicht alltäglich aus.
+Vielleicht dachtest du, es sei nichts Besonderes.
+Aber für mich war es ein stiller Moment, der gezeigt hat:
+Ich gehe zu dir, auch wenn es mich etwas kostet.
+
+Dieses Türchen steht für ein kleines Zeichen mit großer Bedeutung:
+Dass du ein Mensch warst, für den ich instinktiv Wege gegangen bin, die ich für andere nie gegangen wäre – einfach, weil du mir wichtig geworden bist.`,
+        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 10 wartet heute etwas für deine Hände."
+    },
+    11: {
+        title: "Elfter Dezember",
+        story: `⭐ TÜRCHEN 11 – Deine Leichtigkeit, die mich mehr berührt hat, als ich zeigen konnte
+
+TÜRCHEN 11 gehört zu einer Seite an dir, die mich von Anfang an beeindruckt hat – und die du selbst oft viel zu wenig wahrnimmst.
+Es ist diese Leichtigkeit, die du manchmal in dir trägst.
+Dieses spontane Lachen, das mitten in ernste Situationen fällt.
+Diese Art, wie du mit einem kleinen Spruch die Schwere aus einem Moment nehmen kannst.
+
+Manchmal war es genau das, was mich aus meinem eigenen Kopf geholt hat.
+Aus meinen Gedanken, meiner Unsicherheit, meinen Ängsten.
+Du hast mit wenigen Worten etwas in mir gelöst, das ich selbst oft festhalte.
+
+Und gleichzeitig bist du jemand, der für die Menschen, die dir etwas bedeuten, unglaublich viel gibt.
+Du kümmerst dich.
+Du hörst zu.
+Du merkst dir Details, die andere nicht einmal wahrnehmen würden.
+Du bist warm – selbst dann, wenn du es bei dir selbst nicht spürst.
+
+Diese Mischung aus Humor, Stärke, Empathie und Herzenswärme ist einer der Gründe, warum du mich in den letzten zwei Monaten so stark berührt hast.
+Dinge, die für dich selbstverständlich wirken, sind für andere selten.
+Ich glaube, du weißt gar nicht, wie besonders das ist.
+
+Dieses Türchen steht für die Seite von dir, die mich leise, aber stark gefangen genommen hat.
+Die Seite, die nicht laut sagt, dass du da bist,
+es aber in jeder Kleinigkeit zeigt.
+
+Es ist die Version von dir, die mich gleichzeitig beruhigt und zum Lächeln bringt – ohne dass du es jedes Mal merkst.`,
+        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 11 bringt dir heute eine kleine Chance auf einen extra Glücksmoment."
+    },
+    12: {
+        title: "Zwölfter Dezember",
+        story: `⭐ TÜRCHEN 12 – Das Funkeln, das du selbst nicht siehst
+
+TÜRCHEN 12 gehört zu deiner Art, die mich immer wieder überrascht.
+Du sprichst manchmal so über dich, als wärst du nicht so besonders, als würden deine guten Seiten weniger zählen als deine Zweifel.
+Aber genau da liegst du falsch.
+
+Für mich hast du etwas an dir, das man nicht lernen oder faken kann.
+Etwas, das nur sehr wenige Menschen besitzen.
+Etwas, das ich bei dir sofort gespürt habe, auch wenn du es selbst nicht siehst.
+
+Es ist dieses Funkeln.
+Dieses ganz eigene Strahlen.
+Dieses leichte, echte Leuchten, das von innen kommt und nicht von außen.
+
+Und ja – es erinnert mich an einen Diamanten.
+Nicht wegen Perfektion,
+sondern wegen Tiefe, Kanten und Echtheit.
+Ein Diamant hat auch Ecken, Unebenheiten, Linien, die ihn einzigartig machen.
+Und genau so bist du.
+
+Als du einmal im Spaß meintest, dass du manchmal wie fünf und manchmal wie fünfunddreißig bist,
+habe ich nur gedacht:
+Vielleicht ist genau das dein Funkeln.
+Deine Mischung aus Ernsthaftigkeit und Leichtigkeit, aus Reife und Verspieltheit, aus Klarheit und Chaos.
+
+Du bist kein glatter Mensch.
+Du bist echt.
+Mit Tiefe.
+Mit Herz.
+Mit Momenten, die hell leuchten, auch wenn du sie selbst nicht wahrnimmst.
+
+Dieses Türchen steht für das Funkeln in dir,
+das dich wertvoll macht,
+das dich besonders macht,
+das dich zu dem Menschen macht, den ich so gern an meiner Seite habe.
+
+Ein Funkeln, das du nicht spielen kannst,
+sondern eines, das einfach da ist – wie bei einem Diamanten.`,
+        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 12 wartet heute ein kleines Herz auf dein großes Herz."
+    },
+    13: {
+        title: "Dreizehnter Dezember",
+        story: `⭐ TÜRCHEN 13 – Die Wahrheit über meine Fehler
+
+In den letzten zwei Monaten gab es Momente, in denen ich nicht der Mensch war, der ich gern für dich gewesen wäre.
+Momente, in denen meine Unsicherheit lauter war als mein Verstand.
+Momente, in denen meine Angst stärker war als meine Ruhe.
+Momente, in denen mein Herz schneller war als meine Worte.
+
+Ich habe Fehler gemacht.
+Nicht aus Absicht.
+Nicht, weil du etwas falsch gemacht hast.
+Sondern weil du mir plötzlich so viel bedeutet hast, dass ich nicht mehr klar denken konnte.
+
+Eifersucht.
+Paranoia.
+Zu viele Gedanken.
+In alles zu viel hineinlesen.
+Kaltwerden aus Selbstschutz.
+Überreagieren, weil ich Angst hatte, nicht genug zu sein.
+
+All das hatte nichts damit zu tun, dass ich dir misstraut habe.
+Nichts damit, dass du etwas falsch gemacht hättest.
+
+Es war meine Vergangenheit, die meine Hände festgehalten hat.
+Es war mein Herz, das sich davor schützen wollte, wieder auseinanderzubrechen.
+Und gleichzeitig warst du die erste Person seit langer Zeit, bei der ich das Gefühl hatte, dass genau das passieren könnte – dass ich mich wirklich öffne.
+
+Als du einmal gefragt hast, wo mein Fehler liegt, konnte ich es kaum erklären.
+Mittlerweile weiß ich, dass mein Fehler nicht ist, dass ich nichts fühle.
+Mein Fehler ist, dass ich zu viel fühle und es nicht zeigen kann, ohne mich schwach zu fühlen.
+
+Und weil ich dich nicht verlieren wollte, habe ich manchmal genau das getan, wovor ich Angst hatte:
+Ich habe mich falsch verhalten.
+
+TÜRCHEN 13 steht für meine Verantwortung.
+Es ist mein ehrliches Eingeständnis, dass ich Dinge gesagt und getan habe, die du nicht verdient hast –
+und dass ich trotzdem jeden Tag dankbar bin, dass du mich nicht einfach abgeschrieben hast.
+
+Du hast mich in diesen zwei Monaten kennengelernt – mit Stärken, mit Schwächen, mit offenen Herzmomenten und mit den Schatten, die ich mit mir herumtrage.
+Und trotzdem stehst du hier in diesem Adventskalender.
+
+Dieses Türchen bedeutet für mich:
+Ich sehe meine Fehler.
+Ich stehe dazu.
+Und ich will besser sein – für mich und für das, was wir vielleicht einmal werden könnten.`,
+        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 13 schenkt dir heute einen ruhigen Moment mit etwas Warmem in deiner Tasse."
+    },
+    14: {
+        title: "Vierzehnter Dezember",
+        story: `⭐ TÜRCHEN 14 – Die Situationen, die wehgetan haben
+
+TÜRCHEN 14 gehört zu den Momenten, die nicht einfach waren.
+Zu Situationen, in denen Worte zu laut wurden, Gefühle zu stark und Gedanken zu schnell.
+Zu Augenblicken, in denen wir beide an Grenzen gestoßen sind, die wir gar nicht erwartet hatten.
+
+Es gab Tage, an denen uns das, was wir aufbauen wollten, mehr Angst gemacht hat als Freude.
+Nicht, weil es falsch war.
+Nicht, weil es schlecht war.
+Sondern weil wir beide Menschen sind, die tief fühlen – und genau das kann weh tun.
+
+Es gab Situationen, in denen du am liebsten so getan hättest, als wäre nichts gewesen.
+Einfach weitermachen.
+Den Schmerz überspringen.
+Das Herz nicht wieder aufreißen.
+
+Ich verstehe das.
+Denn manchmal ist Schweigen die schnellere Lösung.
+Manchmal ist Wegschieben die angenehmere Option.
+Manchmal denkt man, dass weniger reden die Dinge kleiner macht.
+
+Aber genau das haben wir nicht komplett getan.
+Wir haben hingeschaut.
+Wir haben gesprochen.
+Wir haben uns gespürt, auch wenn es unangenehm war.
+
+Diese Gespräche, diese Diskussionen, diese ehrlichen Momente – sie waren schwer, aber sie waren echt.
+Sie haben gezeigt, dass uns diese Verbindung nicht egal ist.
+
+Dieses Türchen steht für die Wahrheit, dass echtes Kennenlernen manchmal weh tut.
+Es löst Ängste aus.
+Es drückt alte Wunden.
+Es bringt Mauern ins Wanken, die jahrelang gehalten haben.
+
+Aber genau diese ehrlichen, schwierigen Momente zeigen auch,
+dass da etwas ist, das mehr ist als nur ein lockeres Kennenlernen.`,
+        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 14 wartet heute ein kleiner Wellnessmoment nur für dich."
+    },
+    15: {
+        title: "Fünfzehnter Dezember",
+        story: `⭐ TÜRCHEN 15 – Deine Ehrlichkeit, die mich geformt hat
+
+Es gibt eine Seite an dir, die ich am Anfang unterschätzt habe, weil ich nicht wusste, wie tief sie geht: deine Ehrlichkeit.
+Nicht diese oberflächliche Art, mit der man sagt, man wäre direkt,
+sondern eine echte, klare, schonungslose Ehrlichkeit, die aus dem Herzen kommt.
+
+Manchmal war sie hart.
+Manchmal hat sie wehgetan.
+Manchmal hat sie mich überfordert.
+
+Aber genau diese Ehrlichkeit war einer der Gründe, warum ich mich in den letzten zwei Monaten verändert habe.
+Du hast mir nichts vorgespielt.
+Du hast mich nicht angelogen, um etwas leichter zu machen.
+Du hast nicht so getan, als wäre etwas okay, wenn es das nicht war.
+
+Du hast mir gespiegelt, wer ich gerade bin –
+und wer ich sein könnte, wenn ich meine Mauern fallen lasse.
+
+Es gab Momente, in denen du einfach gesagt hast, was du fühlst.
+Ohne Pause.
+Ohne Filter.
+Und genau das hat mich gezwungen, mich selbst anzusehen.
+Nicht wegzuschauen.
+Nicht schönzureden.
+
+Deine Ehrlichkeit hat mich nicht nur getroffen,
+sie hat mich weitergebracht.
+Sie hat mich stärker gemacht.
+Sie hat mich weicher gemacht.
+Sie hat mich mutiger gemacht.
+
+Dieses Türchen steht für deine Stärke.
+Für die Art, wie du sagst, was du fühlst.
+Für die Klarheit, die du hast.
+Und dafür, dass genau diese Ehrlichkeit mich dazu gebracht hat, an mir selbst zu arbeiten.`,
+        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 15 findest du heute einen kleinen Stern, der dich daran erinnern soll, wie wichtig du für mich bist."
+    },
+    16: {
+        title: "Sechzehnter Dezember",
+        story: `⭐ TÜRCHEN 16 – Nach jedem Sturm kam etwas, das stärker war als der Streit
+
+Die letzten zwei Monate waren nicht glatt.
+Nicht ruhig.
+Nicht ohne Reibung.
+
+Es gab Momente, in denen wir gestritten haben, bis keiner mehr wusste, warum wir überhaupt angefangen hatten.
+Momente, in denen wir uns falsch verstanden haben, obwohl wir eigentlich dasselbe wollten.
+Momente, in denen Worte zu scharf waren, Gefühle zu laut, Gedanken zu schnell.
+
+Doch so heftig manche Situationen waren –
+mindestens genauso stark war das, was danach kam.
+
+Nach jedem Streit kam eine Stille.
+Eine Stille, die nicht leer war, sondern voller Gedanken.
+Voller Realität.
+Voller Gefühl.
+
+Es gab Situationen, in denen du dich zurückgezogen hast.
+Nicht, weil du mich nicht mehr fühlen wolltest,
+sondern weil du Ruhe brauchtest, um dich selbst zu sortieren.
+
+Und trotzdem kam am Ende immer wieder etwas zurück.
+Eine Nachricht.
+Ein kurzer Satz.
+Ein ehrlicher Moment, der gezeigt hat, dass es nicht egal ist.
+
+Dieses Türchen steht dafür, dass Nähe nicht durch perfekte Tage entsteht,
+sondern durch das, was man nach den schwierigen Tagen macht.
+
+Egal wie chaotisch es wurde –
+ich habe gemerkt, dass ich immer wieder zu dir zurückgezogen wurde.`,
+        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 16 hält heute ein kleines, süßes Herz für dich bereit."
+    },
+    17: {
+        title: "Siebzehnter Dezember",
+        story: `⭐ TÜRCHEN 17 – Als alles weh tat und ich trotzdem wusste, dass es nicht das Ende ist
+
+TÜRCHEN 17 gehört zu einem der schwersten Momente der letzten zwei Monate.
+Ein Moment, der mich mehr verletzt hat, als ich es nach außen gezeigt habe.
+Ein Moment, in dem ich das Gefühl hatte, dass mir der Boden unter den Füßen weggezogen wird.
+
+Ich war hilflos.
+Nicht wütend.
+Nicht gleichgültig.
+Sondern innerlich verletzt und voller Angst.
+
+Ich wusste nicht, was ich sagen soll.
+Ich wusste nicht, wie ich reagieren soll.
+Ich wusste nicht, wie ich etwas retten kann, ohne noch mehr kaputt zu machen.
+
+Und trotzdem – mitten in diesem Schmerz – war da ein Gefühl, das ich nicht erklären kann.
+Ein Gefühl, das geblieben ist.
+Ein kleiner Funke, der leise gesagt hat, dass das nicht das Ende ist.
+Dass wir uns wiedersehen.
+Dass da noch etwas zwischen uns ist.
+
+Vielleicht war es Hoffnung.
+Vielleicht Intuition.
+Vielleicht einfach die Wahrheit, dass zwischen zwei Menschen etwas Echtes entstanden ist, das nicht einfach verschwinden kann.
+
+Dieses Türchen steht für Schmerz, der zeigt, wie wichtig dir jemand geworden ist.
+Für Hilflosigkeit, die zeigt, wie tief jemand im Herzen angekommen ist.
+Und für den Gedanken, den ich nie ganz losgeworden bin:
+Wir sind nicht fertig.`,
+        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 17 findest du heute eine Erinnerung aus unserer Geschichte auf Papier."
+    },
+    18: {
+        title: "Achtzehnter Dezember",
+        story: `⭐ TÜRCHEN 18 – Dein Traum, den ich nie vergessen habe
+
+In diesen letzten zwei Monaten gab es viele laute Momente zwischen uns – aber es waren die leisen, die mich wirklich berührt haben.
+Vor allem einer davon.
+
+Du hast mir einmal erzählt, dass Edinburgh und London für dich ein großer Traum sind.
+Nicht einfach nur Städte auf einer Liste.
+Sondern Orte, mit denen du ein Gefühl verbindest.
+
+Wie du darüber gesprochen hast, war ruhig und echt.
+Man hat gemerkt, dass da eine Sehnsucht dahinter steckt.
+Nicht nur nach einem Ort, sondern nach einem Gefühl von Freiheit, Wärme und Leben.
+
+Ohne dass du es gemerkt hast, hat sich dieser Traum in meinem Kopf festgesetzt.
+Nicht, weil ich irgendetwas planen will,
+sondern weil es mir zeigt, was dir wichtig ist.
+
+TÜRCHEN 18 steht für etwas Einfaches, aber Wichtiges:
+Ich höre dir zu.
+Nicht nur bei großen Themen,
+sondern auch bei den Wünschen, die aus deinem Herzen kommen.`,
+        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 18 schenkt dir heute noch einmal etwas Warmes für eine kleine Auszeit."
+    },
+    19: {
+        title: "Neunzehnter Dezember",
+        story: `⭐ TÜRCHEN 19 – Die kleinen Dinge, die uns verbinden
+
+TÜRCHEN 19 gehört zu den leisen Momenten, denen man erst später ansieht, wie besonders sie sind.
+Es geht nicht um große Worte oder schwere Gespräche,
+sondern um die kleinen Dinge, die sich zwischen zwei Menschen einprägen.
+
+Eine Sache, die mir besonders in Erinnerung geblieben ist, sind unsere Gespräche über Essen.
+Nicht, weil es ein wichtiges Thema wäre,
+sondern weil man darin so viel über dich erkennen kann –
+und über uns.
+
+Tomate Mozzarella.
+So simpel.
+So leicht.
+Und trotzdem so sehr du.
+Es hat etwas Ruhiges, etwas Erdendes, etwas, das sich nach Zuhause anfühlt.
+
+Und das Lustige ist:
+Ich liebe Tomate Mozzarella genauso.
+Einfach, frisch, ohne viel drumherum.
+Es war einer dieser kleinen Zufälle, die sich nicht wie Zufälle anfühlen,
+sondern wie eine stille Verbindung.
+
+Und dann Carbonara.
+Allein wie du darüber redest, zeigt, dass Essen für dich mehr ist als nur Essen.
+Du verbindest Momente damit.
+Du genießt bewusst und ohne viel Drama.
+
+Ich habe diese Kleinigkeiten nicht vergessen,
+weil sie ein Teil von dir sind
+und es sich nach einer unserer ersten echten Gemeinsamkeiten angefühlt hat.`,
+        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 19 wartet heute ein kleiner Anhänger, der dich durch deinen Tag begleiten kann."
+    },
+    20: {
+        title: "Zwanzigster Dezember",
+        story: `⭐ TÜRCHEN 20 – Unsere Nähe ohne Erwartungen
+
+TÜRCHEN 20 gehört zu etwas, das ich nicht kompliziert machen will:
+zu unserer Nähe.
+
+Mit dir hat sich Intimität von Anfang an echt angefühlt.
+Nicht gespielt, nicht übertrieben,
+sondern warm, vertraut und natürlich.
+Es waren Momente, die uns beiden gutgetan haben –
+nicht, weil alles perfekt war,
+sondern weil wir uns wirklich gespürt haben.
+
+Und genau deshalb will ich dir eines sagen:
+Es ist vollkommen in Ordnung, wenn du danach manchmal anders reagierst.
+Wenn du dich zurückziehst.
+Wenn du ruhiger wirst.
+Wenn in dir etwas arbeitet.
+
+Du musst nichts leisten.
+Nichts beweisen.
+Nichts richtig machen.
+
+Unsere Nähe war schön,
+weil sie echt war –
+nicht, weil sie perfekt war.
+
+Dieses Türchen steht für Verständnis.
+Mit dir fühlt sich Nähe richtig an,
+und du darfst trotzdem so reagieren, wie es sich für dich richtig anfühlt.`,
+        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 20 kümmert sich heute noch einmal liebevoll um deine Lippen."
+    },
+    21: {
+        title: "Einundzwanzigster Dezember",
+        story: `⭐ TÜRCHEN 21 – Weil ich dir zuhören will
+
+In den letzten zwei Monaten habe ich gemerkt, dass du jemand bist, dem man nicht einfach nebenbei zuhört.
+Nicht, weil du laut bist,
+sondern weil deine Worte Bedeutung haben –
+auch die kleinen.
+
+Ich bin nicht perfekt.
+Ich mache Fehler.
+Ich übersehe Dinge.
+Aber bei dir gebe ich mir Mühe.
+Echte Mühe.
+
+Ich versuche, dir zuzuhören.
+Nicht nur im Gespräch,
+sondern auch zwischen den Zeilen.
+
+Deshalb sind Dinge bei mir hängen geblieben,
+die andere gar nicht bemerken würden.
+Zum Beispiel, dass du kaum Pizza magst.
+Aber diese eine, die Margherita mit Mais in Euskirchen, eine Ausnahme ist.
+Ein kleines Stück Komfort, ein kleines Ritual, etwas, das du wirklich magst.
+
+Ich habe mir das nicht gemerkt, weil es spektakulär ist,
+sondern weil du es erzählt hast.
+Und wenn etwas von dir kommt, versuche ich zuzuhören – richtig zuzuhören.
+
+Dieses Türchen steht dafür, dass ich mich bemühe, dich nicht nur zu hören,
+sondern wahrzunehmen, was dir wichtig ist.
+Nicht, weil ich es muss,
+sondern weil du mir wichtig bist.`,
+        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 21 schenkt dir heute ein kleines, süßes Lächeln."
+    },
+    22: {
+        title: "Zweiundzwanzigster Dezember",
+        story: `⭐ TÜRCHEN 22 – Wenn ich an Zukunft denke
+
+Wenn ich an Zukunft denke, dann sehe ich nichts Glattes oder Perfektes.
+Ich sehe etwas Echtes.
+
+Ich sehe Chaos und Lachen.
+Streit und Versöhnung.
+Nähe, Distanz und Wiederfinden.
+Ich sehe zwei Menschen, die Fehler machen
+und trotzdem nicht aufhören zu fühlen.
+
+Wir denken manchmal zu viel.
+Manchmal sagen wir zu wenig.
+Aber irgendwie sind wir immer wieder bei dem Punkt gelandet,
+an dem klar war, dass es nicht egal ist.
+
+Manchmal macht es mir Angst, wie wichtig du mir geworden bist.
+Nicht, weil du etwas falsch machst,
+sondern weil du kein Nebenkapitel bist.
+Du bist eines der Hauptkapitel in meinem Leben.
+
+Ich habe Fehler gemacht.
+Überreagiert.
+Dinge kaputtgedacht, die eigentlich schön waren.
+Aber ich habe verstanden, was diese Fehler bedeuten.
+Und ich weiß, dass man Menschen wie dich nicht einfach aufgibt,
+wenn es sich so anfühlt wie bei uns.`,
+        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 22 findest du heute einen kleinen Schlüsselanhänger als Symbol dafür, dass du einen Schlüssel zu einem sehr wichtigen Teil in mir hast."
+    },
+    23: {
+        title: "Dreiundzwanzigster Dezember",
+        story: `⭐ TÜRCHEN 23 – Das echte Bild
+
+Kurz vor Weihnachten wird alles etwas ruhiger und man denkt automatisch mehr nach.
+Wenn ich an uns denke, sehe ich kein perfektes Bild.
+Ich sehe ein echtes.
+
+Mit Höhen und Tiefen.
+Mit Nähe und Unsicherheit.
+Mit Verletzungen und mit Wärme.
+Mit Situationen, die uns gefordert haben,
+und solchen, die uns näher gebracht haben –
+auch wenn es wehgetan hat.
+
+In der Mitte all dieser Erinnerungen steht ein Gedanke, den ich nicht wegdrücken kann:
+Du bist jemand, den ich nicht verlieren will.
+
+Nicht, weil alles leicht war.
+Sondern weil es Bedeutung hatte.
+Weil es Gefühl hatte.
+Weil es echt war.
+
+Dieses Türchen steht dafür,
+dass man manchmal erst durch Chaos erkennt,
+wie wertvoll ein Mensch wirklich ist.`,
+        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 23 bringt dir heute etwas Warmes für deine Füße, damit du es gemütlich hast."
+    },
+    24: {
+        title: "Vierundzwanzigster Dezember",
+        story: `⭐ TÜRCHEN 24 – Der Tag, der dir gehört
+
+Und dann kommt der letzte Tag.
+Der Tag, der dir gehört.
+Emma.
+
+Ich denke an unseren Moment beim KEC zurück.
+An die Lichter, das Eis, den Klang der Halle, die Energie.
+Und mittendrin warst du – ruhig, warm, echt.
+
+Ich weiß, dass Eishockey eigentlich etwas ist, das du früher mit jemand anderem verbunden hast.
+Ein Teil deiner Vergangenheit.
+Etwas, das nicht von mir stammt.
+Gerade deshalb war es für mich besonders, diesen Moment mit dir teilen zu dürfen.
+
+Ich habe in dieser lauten Halle nur dich gesehen.
+Nicht das Spiel.
+Nicht die Menge.
+Dich.
+
+In deinem vierundzwanzigsten Tütchen liegt ein Gutschein.
+Nicht einfach für ein Spiel,
+sondern für einen neuen Moment beim KEC mit dir.
+Einen Moment, den wir gemeinsam schreiben können.
+Ohne Erwartungen.
+Ohne Druck.
+Einfach wir.
+
+Weil ich diesen Tag mit dir will.
+Nur mit dir.`,
+        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 24 wartet dein persönlicher KEC Moment in Form eines Gutscheins auf dich – für ein weiteres Spiel, eine neue Erinnerung und einen Tag, an dem du einfach nur genießen sollst, wie sehr du geliebt wirst."
+    }
+};
+
+function openDoor(number) {
+    const msg = messages[number];
+    document.getElementById("popupTitle").innerText = msg.title;
+    document.getElementById("text").innerText = msg.story;
+    document.getElementById("hint").innerText = msg.hint;
+    document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+</script>
+
+</body>
+</html>
+
+
