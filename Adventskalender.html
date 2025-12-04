@@ -3,6 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Dein Adventsmärchen</title>
+
+<!-- iPhone Vollbild und Zoom -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!-- Safari wie App behandeln -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Adventskalender">
+
 <style>
     body {
         margin: 0;
@@ -15,6 +24,8 @@
         align-items: center;
         justify-content: flex-start;
         background: radial-gradient(circle at top, #ffb3c1 0%, #b23535 40%, #2b0a18 100%);
+        -webkit-user-select: none;
+        user-select: none;
     }
 
     h1 {
@@ -22,6 +33,7 @@
         margin-bottom: 10px;
         font-size: 34px;
         letter-spacing: 1px;
+        text-align: center;
     }
 
     h2 {
@@ -30,6 +42,7 @@
         font-weight: normal;
         font-size: 18px;
         opacity: 0.9;
+        text-align: center;
     }
 
     .calendar {
@@ -58,6 +71,7 @@
         box-shadow: 0 5px 12px rgba(0,0,0,0.25);
         position: relative;
         overflow: hidden;
+        text-align: center;
     }
 
     .door::after {
@@ -87,6 +101,7 @@
         justify-content: center;
         align-items: center;
         padding: 15px;
+        z-index: 9999;
     }
 
     #popupBox {
@@ -96,8 +111,11 @@
         border-radius: 18px;
         max-width: 650px;
         width: 100%;
+        max-height: 80vh;
+        overflow-y: auto;
         box-shadow: 0 10px 30px rgba(0,0,0,0.6);
         position: relative;
+        -webkit-overflow-scrolling: touch;
     }
 
     #popupTitle {
@@ -105,6 +123,16 @@
         margin-bottom: 10px;
         font-weight: 700;
         color: #b23535;
+    }
+
+    /* Bild im Popup */
+    #popupImage {
+        width: 100%;
+        max-height: 250px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-bottom: 12px;
+        display: none;
     }
 
     #text {
@@ -183,6 +211,8 @@
 <div id="popup">
     <div id="popupBox">
         <div id="popupTitle"></div>
+        <!-- Bild im Popup -->
+        <img id="popupImage" src="" alt="">
         <div id="text"></div>
         <div id="hint"></div>
         <button id="closeBtn" onclick="closePopup()">Schließen</button>
@@ -203,7 +233,9 @@ Dieses erste Türchen steht für die allererste Bewegung unserer Geschichte.
 Für ein digitales Treffen, das zufällig wirkte und sich doch richtig angefühlt hat.
 Für einen Anfang, der klein begann und sich größer anfühlt, als man es nach so kurzer Zeit erklären kann.
 Für einen Anfang, der es wert ist, in einem Adventskalender festgehalten zu werden.`,
-        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 1 schenkt dir etwas, das den Dezember warm starten lässt."
+        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 1 schenkt dir etwas, das den Dezember warm starten lässt.",
+        // Hier Ihr echtes Foto eintragen, z. B. IMG_5747.jpg
+        imageUrl: "images/tuerchen1.jpg"
     },
     2: {
         title: "Zweiter Dezember",
@@ -218,7 +250,8 @@ Nach dem Spaziergang war da kein Zögern, kein Abstand halten, kein wir sollten 
 Dieses Türchen steht für die ersten Schritte, die wir gegangen sind – wortwörtlich.
 Für die Momente, in denen man sich ansieht und spürt:
 Ich möchte diesen Menschen wiedersehen.`,
-        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 2 wartet heute etwas für deine Lippen, die ich viel zu oft im Kopf habe."
+        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 2 wartet heute etwas für deine Lippen, die ich viel zu oft im Kopf habe.",
+        imageUrl: "images/tuerchen2.jpg"
     },
     3: {
         title: "Dritter Dezember",
@@ -233,7 +266,8 @@ Unsere Gespräche gingen tiefer, als man es von einem wir kennen uns erst kurz e
 
 Dieses Türchen steht für dieses Tempo – ein Tempo, das nicht vom Kopf, sondern vom Herzen kam.
 Für die Erkenntnis, dass manche Menschen in unserem Leben landen und sich nicht wie Fremde anfühlen, sondern wie ein neuer Anfang.`,
-        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 3 schenkt dir heute einen warmen Moment in einer Tasse."
+        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 3 schenkt dir heute einen warmen Moment in einer Tasse.",
+        imageUrl: "images/tuerchen3.jpg"
     },
     4: {
         title: "Vierter Dezember",
@@ -250,7 +284,8 @@ für eine Verbindung, die trotz Entfernung und Chaos gewachsen ist.
 Für eine Nähe, die nicht hätte da sein müssen – aber da war.
 Für dieses stille Gefühl:
 Vielleicht bedeutet dieser Mensch mir mehr, als ich zugeben wollte.`,
-        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 4 wartet ein kleiner winterlicher Anhänger auf dich."
+        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 4 wartet ein kleiner winterlicher Anhänger auf dich.",
+        imageUrl: "images/tuerchen4.jpg"
     },
     5: {
         title: "Fünfter Dezember",
@@ -271,7 +306,8 @@ Aus Nähe und Angst.
 Aus Verletzlichkeit und Mut.
 
 Und aus dem Wunsch, trotz allem weiterzugehen.`,
-        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 5 hält heute etwas Süßes bereit, wie eine kleine Erinnerung daran, dass wir auch weiche Seiten haben."
+        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 5 hält heute etwas Süßes bereit, wie eine kleine Erinnerung daran, dass wir auch weiche Seiten haben.",
+        imageUrl: "images/tuerchen5.jpg"
     },
     6: {
         title: "Sechster Dezember",
@@ -292,7 +328,8 @@ Dieses Türchen steht für genau das:
 für die kleinen, stillen Funken zwischen uns,
 für die Art, wie du mich anschaust,
 für den Moment, in dem aus zwei Fremden zwei Menschen wurden, die sich wirklich gespürt haben.`,
-        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 6 liegt ein kleiner Moment von uns, festgehalten für dich."
+        hint: "Hinweis für dein echtes Türchen: In Tütchen Nummer 6 liegt ein kleiner Moment von uns, festgehalten für dich.",
+        imageUrl: "images/tuerchen6.jpg"
     },
     7: {
         title: "Siebter Dezember",
@@ -318,8 +355,12 @@ Dieses Türchen steht für die kleinen Dinge, die man nie planen kann.
 Für spontane Aussagen, die mehr Bedeutung haben als große Gesten.
 Für die Art, wie du bist – bunt, lebendig, voller Facetten –
 und für die Tatsache, dass genau das eine der schönsten Seiten an dir ist.`,
-        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 7 bringt dir heute ein kleines Licht, das an gemeinsame Tage erinnern soll."
+        hint: "Hinweis für dein echtes Türchen: Tütchen Nummer 7 bringt dir heute ein kleines Licht, das an gemeinsame Tage erinnern soll.",
+        imageUrl: "images/tuerchen7.jpg"
     },
+
+    /* Ab hier keine Bilder gesetzt, imageUrl kann später ergänzt werden */
+
     8: {
         title: "Achter Dezember",
         story: `⭐ TÜRCHEN 8 – Als meine Vergangenheit plötzlich keine Distanz mehr bieten konnte
@@ -844,7 +885,7 @@ Ich sehe Chaos und Lachen.
 Streit und Versöhnung.
 Nähe, Distanz und Wiederfinden.
 Ich sehe zwei Menschen, die Fehler machen
-und trotzdem nicht aufhören zu fühlen.
+and trotzdem nicht aufhören zu fühlen.
 
 Wir denken manchmal zu viel.
 Manchmal sagen wir zu wenig.
@@ -930,9 +971,23 @@ Nur mit dir.`,
 
 function openDoor(number) {
     const msg = messages[number];
-    document.getElementById("popupTitle").innerText = msg.title;
-    document.getElementById("text").innerText = msg.story;
-    document.getElementById("hint").innerText = msg.hint;
+    const titleEl = document.getElementById("popupTitle");
+    const textEl = document.getElementById("text");
+    const hintEl = document.getElementById("hint");
+    const imgEl = document.getElementById("popupImage");
+
+    titleEl.innerText = msg.title;
+    textEl.innerText = msg.story;
+    hintEl.innerText = msg.hint || "";
+
+    if (msg.imageUrl) {
+        imgEl.src = msg.imageUrl;
+        imgEl.style.display = "block";
+    } else {
+        imgEl.src = "";
+        imgEl.style.display = "none";
+    }
+
     document.getElementById("popup").style.display = "flex";
 }
 
@@ -943,5 +998,3 @@ function closePopup() {
 
 </body>
 </html>
-
-
